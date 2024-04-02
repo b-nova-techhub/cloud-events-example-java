@@ -24,14 +24,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ActivityResource
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActivityResource.class);
-
     @POST
     public Response create(CloudEvent event) {
         LOGGER.info("Received event: {}", event);
         if (event == null || event.getData() == null) {
             throw new BadRequestException("Invalid data received. Null or empty event");
         }
-
         if(event.getType().equals("com.bnova.techhub.button.clicked")) {
             Activity activity = PojoCloudEventDataMapper
                     .from(new ObjectMapper(), Activity.class)
@@ -48,7 +46,5 @@ public class ActivityResource
                     .entity("Invalid event type")
                     .build();
         }
-
     }
-
 }
