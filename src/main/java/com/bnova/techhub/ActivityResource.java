@@ -58,6 +58,8 @@ public class ActivityResource
 					    .map(event.getData())
 					    .getValue();
 			    LOGGER.info("Received ButtonEvent: {}", buttenEvent);
+			    Thread.sleep(Duration.ofSeconds(2).toMillis());
+
 			    return Response
 					    .ok()
 					    .build();
@@ -72,10 +74,8 @@ public class ActivityResource
 
 			    Activity activity = boredApiService.getActivity();
 
-			    CloudEvent cloudEvent = CloudEventBuilder.v1()
-					    .withType("com.bnova.techhub.activity")
+			    CloudEvent cloudEvent = CloudEventBuilder.v1(event)
 					    .withSource(URI.create("cloud-events-example-java"))
-					    .withId(UUID.randomUUID().toString())
 					    .withData(PojoCloudEventData.wrap(activity, mapper::writeValueAsBytes))
 					    .build();
 
